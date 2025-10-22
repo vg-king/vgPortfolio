@@ -20,7 +20,7 @@ export class GSAPAnimations {
   }
 
   // Fade in animation
-  static fadeIn(element: string | Element, options: any = {}) {
+  static fadeIn(element: string | Element, options: gsap.TweenVars = {}) {
     return gsap.fromTo(element, 
       { opacity: 0, y: 50 },
       {
@@ -39,7 +39,7 @@ export class GSAPAnimations {
   }
 
   // Slide in from left
-  static slideInLeft(element: string | Element, options: any = {}) {
+  static slideInLeft(element: string | Element, options: gsap.TweenVars = {}) {
     return gsap.fromTo(element,
       { opacity: 0, x: -100 },
       {
@@ -58,7 +58,7 @@ export class GSAPAnimations {
   }
 
   // Slide in from right
-  static slideInRight(element: string | Element, options: any = {}) {
+  static slideInRight(element: string | Element, options: gsap.TweenVars = {}) {
     return gsap.fromTo(element,
       { opacity: 0, x: 100 },
       {
@@ -77,7 +77,7 @@ export class GSAPAnimations {
   }
 
   // Scale animation
-  static scaleIn(element: string | Element, options: any = {}) {
+  static scaleIn(element: string | Element, options: gsap.TweenVars = {}) {
     return gsap.fromTo(element,
       { opacity: 0, scale: 0.8 },
       {
@@ -96,7 +96,7 @@ export class GSAPAnimations {
   }
 
   // Stagger animation for multiple elements
-  static staggerIn(elements: string | Element[], options: any = {}) {
+  static staggerIn(elements: string | Element[], options: gsap.TweenVars = {}) {
     return gsap.fromTo(elements,
       { opacity: 0, y: 30 },
       {
@@ -116,7 +116,7 @@ export class GSAPAnimations {
   }
 
   // Typing text animation
-  static typeText(element: string | Element, text: string, options: any = {}) {
+  static typeText(element: string | Element, text: string, options: gsap.TweenVars = {}) {
     return gsap.to(element, {
       duration: 2,
       text: text,
@@ -148,7 +148,7 @@ export class GSAPAnimations {
   }
 
   // Rotate animation
-  static rotate(element: string | Element, options: any = {}) {
+  static rotate(element: string | Element, options: gsap.TweenVars = {}) {
     return gsap.fromTo(element,
       { rotation: -10, opacity: 0 },
       {
@@ -178,7 +178,7 @@ export class GSAPAnimations {
   }
 
   // Hero title animation
-  static heroTitle(element: string | Element, options: any = {}) {
+  static heroTitle(element: string | Element, options: gsap.TweenVars = {}) {
     return gsap.fromTo(element,
       { 
         opacity: 0, 

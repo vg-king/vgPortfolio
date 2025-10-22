@@ -48,7 +48,7 @@ export default function ContactForm() {
   };
 
   return (
-    <div style={{
+    <div className="contact-form-container" style={{
       maxWidth: '600px',
       margin: '0 auto',
       padding: '2rem',
@@ -57,7 +57,7 @@ export default function ContactForm() {
       border: '1px solid rgba(147, 51, 234, 0.2)',
       backdropFilter: 'blur(10px)'
     }}>
-      <h3 style={{
+      <h3 className="contact-form-title" style={{
         fontSize: '1.8rem',
         fontWeight: '600',
         color: 'white',

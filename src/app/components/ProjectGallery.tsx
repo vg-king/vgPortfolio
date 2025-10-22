@@ -82,8 +82,8 @@ const ProjectGallery: React.FC = () => {
   }, []);
 
   return (
-    <section className="project-gallery-section">
-      <div className="container mx-auto px-6 py-20">
+    <section className="project-gallery-section responsive-gallery">
+      <div className="container mx-auto px-6 py-20 mobile-container">
         <div className="text-center mb-20">
           <h2 ref={titleRef} className="text-5xl md:text-7xl font-bold text-white mb-6">
             Featured Projects

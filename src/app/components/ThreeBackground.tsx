@@ -16,9 +16,17 @@ const ThreeBackground: React.FC<ThreeBackgroundProps> = ({
   const sceneRef = useRef<THREE.Scene | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const particlesRef = useRef<THREE.Points | null>(null);
+  
+  // Mobile detection
+  const isMobile = () => {
+    return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  };
 
   useEffect(() => {
     if (!mountRef.current) return;
+
+    // Mobile detection for performance optimization
+    const mobile = isMobile();
 
     // Scene setup
     const scene = new THREE.Scene();
@@ -33,22 +41,30 @@ const ThreeBackground: React.FC<ThreeBackgroundProps> = ({
     );
     camera.position.z = 5;
 
-    // Renderer setup
+    // Renderer setup with mobile optimization
     const renderer = new THREE.WebGLRenderer({ 
       alpha: true, 
-      antialias: true 
+      antialias: !mobile, // Disable antialiasing on mobile for performance
+      powerPreference: mobile ? 'low-power' : 'high-performance'
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000, 0);
+    
+    // Set pixel ratio for mobile performance
+    renderer.setPixelRatio(mobile ? Math.min(window.devicePixelRatio, 2) : window.devicePixelRatio);
     rendererRef.current = renderer;
     mountRef.current.appendChild(renderer.domElement);
 
+    // Adjust performance for mobile
+    const adjustedParticleCount = mobile ? Math.min(particleCount * 0.3, 300) : particleCount;
+    const adjustedIntensity = mobile ? intensity * 0.5 : intensity;
+
     // Create particles
     const geometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(particleCount * 3);
-    const colors = new Float32Array(particleCount * 3);
+    const positions = new Float32Array(adjustedParticleCount * 3);
+    const colors = new Float32Array(adjustedParticleCount * 3);
 
-    for (let i = 0; i < particleCount; i++) {
+    for (let i = 0; i < adjustedParticleCount; i++) {
       positions[i * 3] = (Math.random() - 0.5) * 20;
       positions[i * 3 + 1] = (Math.random() - 0.5) * 20;
       positions[i * 3 + 2] = (Math.random() - 0.5) * 20;
@@ -77,15 +93,16 @@ const ThreeBackground: React.FC<ThreeBackgroundProps> = ({
     particlesRef.current = particles;
     scene.add(particles);
 
-    // Add floating geometric shapes
+    // Add floating geometric shapes (reduce count on mobile)
     const shapes: THREE.Mesh[] = [];
+    const shapeCount = mobile ? 8 : 20;
     const shapeGeometries = [
       new THREE.BoxGeometry(0.1, 0.1, 0.1),
-      new THREE.SphereGeometry(0.05, 8, 6),
-      new THREE.ConeGeometry(0.05, 0.15, 6),
+      new THREE.SphereGeometry(0.05, mobile ? 4 : 8, mobile ? 3 : 6), // Lower geometry detail on mobile
+      new THREE.ConeGeometry(0.05, 0.15, mobile ? 4 : 6),
     ];
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < shapeCount; i++) {
       const geometry = shapeGeometries[Math.floor(Math.random() * shapeGeometries.length)];
       const material = new THREE.MeshBasicMaterial({
         color: new THREE.Color(0.6, 0.3, 0.9),
@@ -115,32 +132,35 @@ const ThreeBackground: React.FC<ThreeBackgroundProps> = ({
     const animate = () => {
       animationId = requestAnimationFrame(animate);
 
-      // Rotate particles
+      // Rotate particles (use adjusted intensity)
       if (particlesRef.current) {
-        particlesRef.current.rotation.x += 0.0005 * intensity;
-        particlesRef.current.rotation.y += 0.001 * intensity;
+        particlesRef.current.rotation.x += 0.0005 * adjustedIntensity;
+        particlesRef.current.rotation.y += 0.001 * adjustedIntensity;
       }
 
-      // Animate shapes
+      // Animate shapes (reduce animation complexity on mobile)
       shapes.forEach((shape, index) => {
-        shape.rotation.x += 0.002 * (index % 2 === 0 ? 1 : -1);
-        shape.rotation.y += 0.003 * (index % 3 === 0 ? 1 : -1);
-        shape.rotation.z += 0.001 * (index % 4 === 0 ? 1 : -1);
+        const animationSpeed = mobile ? 0.5 : 1;
+        shape.rotation.x += 0.002 * animationSpeed * (index % 2 === 0 ? 1 : -1);
+        shape.rotation.y += 0.003 * animationSpeed * (index % 3 === 0 ? 1 : -1);
+        shape.rotation.z += 0.001 * animationSpeed * (index % 4 === 0 ? 1 : -1);
       });
 
-      // Mouse interaction
-      const mouse = { x: 0, y: 0 };
-      const handleMouseMove = (event: MouseEvent) => {
-        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-        
-        if (particlesRef.current) {
-          particlesRef.current.rotation.x = mouse.y * 0.1;
-          particlesRef.current.rotation.y = mouse.x * 0.1;
-        }
-      };
+      // Mouse interaction (disable on mobile for performance)
+      if (!mobile) {
+        const mouse = { x: 0, y: 0 };
+        const handleMouseMove = (event: MouseEvent) => {
+          mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+          mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+          
+          if (particlesRef.current) {
+            particlesRef.current.rotation.x = mouse.y * 0.1;
+            particlesRef.current.rotation.y = mouse.x * 0.1;
+          }
+        };
 
-      window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('mousemove', handleMouseMove);
+      }
 
       renderer.render(scene, camera);
     };

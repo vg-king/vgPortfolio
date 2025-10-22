@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from 'react';
+import Image from 'next/image';
 import GSAPAnimations from '../utils/gsapAnimations';
 import './animations.css';
 import reactLogo from '../../assets/png-transparent-react-react-native-logos-brands-in-colors-icon-thumbnail.png';
@@ -90,7 +91,7 @@ export default function Skills() {
   }, []);
 
   return (
-    <section id="about" style={{
+    <section id="about" className="skills-section" style={{
       padding: '6rem 2rem 8rem 2rem',
       position: 'relative'
     }}>
@@ -111,7 +112,7 @@ export default function Skills() {
             Work Experience
           </h2>
 
-          <div ref={experiencesRef} style={{
+          <div ref={experiencesRef} className="experience-grid" style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
             gap: '2.5rem'
@@ -374,12 +375,12 @@ export default function Skills() {
                     e.currentTarget.style.boxShadow = `0 8px 32px ${tech.color}40`;
                   }}
                 >
-                  <img 
-                    src={tech.icon.src || tech.icon} 
+                  <Image 
+                    src={tech.icon} 
                     alt={tech.name}
+                    width={32}
+                    height={32}
                     style={{
-                      width: '32px',
-                      height: '32px',
                       objectFit: 'contain'
                     }}
                   />
@@ -420,7 +421,7 @@ export default function Skills() {
         </div>
 
         {/* Solar System Logo with Orbiting Tech Stack - Figma Style */}
-        <div ref={skillsRef} style={{
+        <div ref={skillsRef} className="solar-system-container" style={{
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
@@ -555,12 +556,12 @@ export default function Skills() {
                   `;
                 }}
               >
-                <img 
-                  src={tech.icon.src || tech.icon} 
+                <Image 
+                  src={tech.icon} 
                   alt={tech.name}
+                  width={28}
+                  height={28}
                   style={{
-                    width: '28px',
-                    height: '28px',
                     objectFit: 'contain'
                   }}
                 />
@@ -632,7 +633,6 @@ export default function Skills() {
             onClick={() => {
               const detailsSection = document.getElementById('tech-details');
               const button = document.querySelector('[data-details-button]') as HTMLButtonElement;
-              const arrow = button?.querySelector('span');
               
               if (detailsSection) {
                 const isHidden = detailsSection.style.maxHeight === '0px' || detailsSection.style.display === 'none';
@@ -794,12 +794,12 @@ export default function Skills() {
                   }}
                   >
                     {tech.icon ? (
-                      <img 
-                        src={tech.icon.src || tech.icon} 
+                      <Image 
+                        src={tech.icon} 
                         alt={tech.name}
+                        width={40}
+                        height={40}
                         style={{
-                          width: '40px',
-                          height: '40px',
                           objectFit: 'contain'
                         }}
                       />
@@ -878,12 +878,12 @@ export default function Skills() {
                   }}
                   >
                     {tech.icon ? (
-                      <img 
-                        src={tech.icon.src || tech.icon} 
+                      <Image 
+                        src={tech.icon} 
                         alt={tech.name}
+                        width={40}
+                        height={40}
                         style={{
-                          width: '40px',
-                          height: '40px',
                           objectFit: 'contain'
                         }}
                       />
@@ -1071,6 +1071,33 @@ export default function Skills() {
         </div>
       </div>
 
+      <style jsx>{`
+        @media (max-width: 768px) {
+          .skills-section {
+            padding: 4rem 1rem 6rem 1rem !important;
+          }
+          
+          .experience-grid {
+            grid-template-columns: 1fr !important;
+            gap: 1.5rem !important;
+          }
+          
+          .solar-system-container {
+            height: 400px !important;
+            margin: 1rem 0 !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .skills-section {
+            padding: 3rem 0.5rem 4rem 0.5rem !important;
+          }
+          
+          .solar-system-container {
+            height: 300px !important;
+          }
+        }
+      `}</style>
 
     </section>
   );

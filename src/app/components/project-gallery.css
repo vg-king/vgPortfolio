@@ -684,3 +684,38 @@ po[ jf aimations queue  finp lkfpiejfefnkoln fk nfipjwef  fipewjfjpef dfjidfipur
 .project-image {
   will-change: transform;
 }
+
+/* Additional Mobile Optimizations */
+@media (max-width: 768px) {
+  .responsive-gallery {
+    padding: 4rem 0 !important;
+  }
+  
+  .mobile-container {
+    padding: 0 1rem 4rem 1rem !important;
+  }
+  
+  .cube-carousel-container {
+    margin: 2rem 0 !important;
+  }
+  
+  .project-title-display {
+    padding: 1rem !important;
+    margin-top: 2rem !important;
+  }
+  
+  .github-link {
+    font-size: 0.9rem !important;
+    padding: 0.8rem 1.5rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .responsive-gallery {
+    padding: 3rem 0 !important;
+  }
+  
+  .mobile-container {
+    padding: 0 0.5rem 3rem 0.5rem !important;
+  }
+}

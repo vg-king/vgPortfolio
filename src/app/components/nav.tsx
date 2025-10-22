@@ -1,12 +1,13 @@
 "use client"
 import Link from 'next/link';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import GSAPAnimations from '../utils/gsapAnimations';
 
 export default function Nav() {
   const navRef = useRef<HTMLElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const linksRef = useRef<HTMLUListElement>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -22,6 +23,10 @@ export default function Nav() {
       }
     }
   }, []);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
 
   return (
     <nav style={{ 
@@ -60,7 +65,7 @@ export default function Nav() {
           </Link>
         </div>
         
-        {/* Navigation Links */}
+        {/* Desktop Navigation Links */}
         <ul ref={linksRef} style={{ 
           display: 'flex', 
           alignItems: 'center',
@@ -68,7 +73,8 @@ export default function Nav() {
           listStyle: 'none',
           margin: 0,
           padding: 0
-        }}>
+        }}
+        className="desktop-nav">
           <li>
             <Link 
               href="#home" 
@@ -118,7 +124,121 @@ export default function Nav() {
             </Link>
           </li>
         </ul>
+
+        {/* Mobile Hamburger Menu */}
+        <button 
+          className="mobile-menu-btn"
+          onClick={toggleMobileMenu}
+          style={{
+            display: 'none',
+            background: 'transparent',
+            border: 'none',
+            color: 'white',
+            fontSize: '1.5rem',
+            cursor: 'pointer',
+            padding: '0.5rem'
+          }}
+        >
+          {isMobileMenuOpen ? '✕' : '☰'}
+        </button>
+
+        {/* Mobile Navigation Menu */}
+        <div 
+          className="mobile-nav"
+          style={{
+            display: 'none',
+            position: 'absolute',
+            top: '100%',
+            left: 0,
+            right: 0,
+            background: 'rgba(26, 11, 46, 0.95)',
+            backdropFilter: 'blur(20px)',
+            borderTop: '1px solid rgba(147, 51, 234, 0.3)',
+            transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(-100%)',
+            opacity: isMobileMenuOpen ? 1 : 0,
+            transition: 'all 0.3s ease',
+            zIndex: 999
+          }}
+        >
+          <ul style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '2rem',
+            padding: '2rem 0',
+            listStyle: 'none',
+            margin: 0
+          }}>
+            <li>
+              <Link 
+                href="#home" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                style={{ 
+                  color: 'white',
+                  textDecoration: 'none',
+                  fontSize: '1.2rem',
+                  fontWeight: '500',
+                  transition: 'color 0.3s'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#a78bfa'}
+                onMouseLeave={(e) => e.currentTarget.style.color = 'white'}
+              >
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link 
+                href="#about" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                style={{ 
+                  color: 'white',
+                  textDecoration: 'none',
+                  fontSize: '1.2rem',
+                  fontWeight: '500',
+                  transition: 'color 0.3s'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#a78bfa'}
+                onMouseLeave={(e) => e.currentTarget.style.color = 'white'}
+              >
+                About
+              </Link>
+            </li>
+            <li>
+              <Link 
+                href="#projects" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                style={{ 
+                  color: 'white',
+                  textDecoration: 'none',
+                  fontSize: '1.2rem',
+                  fontWeight: '500',
+                  transition: 'color 0.3s'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#a78bfa'}
+                onMouseLeave={(e) => e.currentTarget.style.color = 'white'}
+              >
+                Lab
+              </Link>
+            </li>
+          </ul>
+        </div>
       </div>
+
+      <style jsx>{`
+        @media (max-width: 768px) {
+          .desktop-nav {
+            display: none !important;
+          }
+          
+          .mobile-menu-btn {
+            display: block !important;
+          }
+          
+          .mobile-nav {
+            display: block !important;
+          }
+        }
+      `}</style>
     </nav>
   );
 }

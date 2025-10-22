@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import GSAPAnimations from '../utils/gsapAnimations';
 import ContactForm from './ContactForm';
+import './footer.css';
 
 export default function Footer() {
   const contactTitleRef = useRef<HTMLHeadingElement>(null);
@@ -78,7 +79,7 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer style={{
+    <footer className="footer-section" style={{
       padding: '6rem 2rem 4rem',
       borderTop: '1px solid rgba(147, 51, 234, 0.3)',
       marginTop: '6rem',
@@ -134,7 +135,7 @@ export default function Footer() {
           </p>
 
           {/* Contact Information */}
-          <div style={{
+          <div className="contact-info-grid" style={{
             display: 'flex',
             justifyContent: 'center',
             gap: '3rem',
@@ -194,7 +195,7 @@ export default function Footer() {
           </div>
 
           {/* Social Links */}
-          <div ref={socialLinksRef} style={{
+          <div ref={socialLinksRef} className="social-links-grid" style={{
             display: 'flex',
             justifyContent: 'center',
             gap: '2rem',

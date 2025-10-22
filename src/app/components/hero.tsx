@@ -44,11 +44,12 @@ export default function Hero() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: '2rem',
-      paddingTop: '8rem',
+      padding: '1rem',
+      paddingTop: '6rem',
       position: 'relative',
       overflow: 'hidden'
-    }}>
+    }}
+    className="hero-section">
       {/* Animated Background Particles */}
       <div style={{
         position: 'absolute',
@@ -82,17 +83,19 @@ export default function Hero() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        gap: '4rem',
+        gap: '2rem',
         flexWrap: 'wrap',
         position: 'relative',
         zIndex: 1
-      }}>
+      }}
+      className="hero-container">
         {/* Left Side - Enhanced Character */}
         <div 
+          className="hero-character"
           style={{
             position: 'relative',
             flex: '0 0 auto',
-            minWidth: '380px',
+            minWidth: '280px',
             transform: isVisible ? 'translateX(0)' : 'translateX(-100px)',
             opacity: isVisible ? 1 : 0,
             transition: 'all 1.2s cubic-bezier(0.4, 0, 0.2, 1)'
@@ -210,13 +213,15 @@ export default function Hero() {
         </div>
 
         {/* Right Side - Enhanced Content */}
-        <div style={{ 
-          flex: 1,
-          minWidth: '450px',
-          transform: isVisible ? 'translateX(0)' : 'translateX(100px)',
-          opacity: isVisible ? 1 : 0,
-          transition: 'all 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.2s'
-        }}>
+        <div 
+          className="hero-content"
+          style={{ 
+            flex: 1,
+            minWidth: '300px',
+            transform: isVisible ? 'translateX(0)' : 'translateX(100px)',
+            opacity: isVisible ? 1 : 0,
+            transition: 'all 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.2s'
+          }}>
           {/* Animated Greeting */}
           <div style={{
             fontSize: '1.4rem',
@@ -263,15 +268,17 @@ export default function Hero() {
 
           {/* Main Headline with Better Typography */}
           <div ref={titleRef}>
-            <h1 style={{
-              fontSize: '4.5rem',
-              fontWeight: '800',
-              lineHeight: '1.02',
-              marginBottom: '2.2rem',
-              color: 'white',
-              textShadow: '0 6px 12px rgba(0,0,0,0.5)',
-              letterSpacing: '-0.02em'
-            }}>
+            <h1 
+              className="hero-title"
+              style={{
+                fontSize: '4.5rem',
+                fontWeight: '800',
+                lineHeight: '1.02',
+                marginBottom: '2.2rem',
+                color: 'white',
+                textShadow: '0 6px 12px rgba(0,0,0,0.5)',
+                letterSpacing: '-0.02em'
+              }}>
             <span style={{
               background: 'linear-gradient(135deg, #ffffff, #e5e7eb)',
               backgroundClip: 'text',
@@ -566,6 +573,55 @@ export default function Hero() {
           0% { stroke-dasharray: 0 200; }
           50% { stroke-dasharray: 200 200; }
           100% { stroke-dasharray: 200 0; }
+        }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+          .hero-section {
+            padding: 1rem !important;
+            padding-top: 5rem !important;
+            min-height: auto !important;
+          }
+          
+          .hero-container {
+            flex-direction: column !important;
+            gap: 1.5rem !important;
+            text-align: center !important;
+          }
+          
+          .hero-character {
+            order: 2 !important;
+            min-width: 250px !important;
+            margin: 1rem 0 !important;
+          }
+          
+          .hero-content {
+            order: 1 !important;
+            min-width: auto !important;
+            width: 100% !important;
+          }
+          
+          .hero-title {
+            font-size: 2.5rem !important;
+            line-height: 1.1 !important;
+            margin-bottom: 1.5rem !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .hero-section {
+            padding: 0.5rem !important;
+            padding-top: 4rem !important;
+          }
+          
+          .hero-title {
+            font-size: 2rem !important;
+            margin-bottom: 1rem !important;
+          }
+          
+          .hero-character {
+            min-width: 200px !important;
+          }
         }
       `}</style>
     </section>
