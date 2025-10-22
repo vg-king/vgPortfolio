@@ -276,7 +276,7 @@ export default function Skills() {
             maxWidth: '700px',
             margin: '0 auto 2rem'
           }}>
-            I'm currently looking to join a <span style={{ 
+            I&apos;m currently looking to join a <span style={{ 
               color: '#a78bfa', 
               fontWeight: '600',
               textShadow: '0 0 10px rgba(167, 139, 250, 0.5)'
@@ -287,7 +287,7 @@ export default function Skills() {
             fontSize: '1rem',
             marginBottom: '4rem'
           }}>
-            that values improving people's lives through accessible design and scalable technology
+            that values improving people&apos;s lives through accessible design and scalable technology
           </p>
 
           {/* Top Row Tech Stack with Connecting Lines */}

@@ -14,7 +14,7 @@ interface Project {
   subtitle: string;
   description: string;
   techStack: string;
-  image: any;
+  image: string | typeof project1;
   category: string;
   color: string;
   demoLink: string;

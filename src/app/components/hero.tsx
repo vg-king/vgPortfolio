@@ -5,7 +5,6 @@ import GSAPAnimations from '../utils/gsapAnimations';
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false);
   const [textIndex, setTextIndex] = useState(0);
-  const heroRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
@@ -365,7 +364,7 @@ export default function Hero() {
               gap: '1rem',
               letterSpacing: '-0.01em'
             }}>
-              I'm a{' '}
+              I&apos;m a{' '}
               <span style={{
                 color: '#a78bfa',
                 minWidth: '280px',
@@ -388,7 +387,7 @@ export default function Hero() {
               gap: '0.8rem',
               flexWrap: 'wrap'
             }}>
-              Currently, I'm a B.Tech Student at{' '}
+              Currently, I&apos;m a B.Tech Student at{' '}
               <span style={{ 
                 color: '#60a5fa',
                 fontWeight: '700',

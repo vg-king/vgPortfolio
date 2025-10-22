@@ -33,7 +33,7 @@ export default function ContactForm() {
       } else {
         setSubmitStatus('error');
       }
-    } catch (error) {
+    } catch {
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -80,7 +80,7 @@ export default function ContactForm() {
           fontSize: '0.9rem',
           fontWeight: '500'
         }}>
-          ✅ Message sent successfully! I'll get back to you soon.
+          ✅ Message sent successfully! I&apos;ll get back to you soon.
         </div>
       )}
       

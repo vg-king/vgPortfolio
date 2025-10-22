@@ -180,12 +180,13 @@ const ThreeBackground: React.FC<ThreeBackgroundProps> = ({
 
     // Cleanup
     return () => {
+      const currentMount = mountRef.current;
       window.removeEventListener('resize', handleResize);
       if (animationId) {
         cancelAnimationFrame(animationId);
       }
-      if (mountRef.current && renderer.domElement) {
-        mountRef.current.removeChild(renderer.domElement);
+      if (currentMount && renderer.domElement) {
+        currentMount.removeChild(renderer.domElement);
       }
       renderer.dispose();
     };

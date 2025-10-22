@@ -52,15 +52,6 @@ export default function Skills() {
     }
   ];
 
-  const techStack = [
-    { name: "Java", icon: "☕", color: "#f59e0b" },
-    { name: "JavaScript", icon: "🟨", color: "#eab308" },
-    { name: "React", icon: "⚛️", color: "#3b82f6" },
-    { name: "Spring Boot", icon: "🍃", color: "#10b981" },
-    { name: "TypeScript", icon: "🔷", color: "#3178c6" },
-    { name: "Kotlin", icon: "🟣", color: "#7f52ff" }
-  ];
-
   const solarSystemTech = [
     { name: "React", icon: reactLogo, color: "#61dafb", orbit: 180, speed: 6, angle: 0 },
     { name: "Spring Boot", icon: springLogo, color: "#6db33f", orbit: 240, speed: 8, angle: 60 },
@@ -309,7 +300,7 @@ export default function Skills() {
             maxWidth: '700px',
             margin: '0 auto 2rem'
           }}>
-            I'm currently looking to join a <span style={{ 
+            I&apos;m currently looking to join a <span style={{ 
               color: '#a78bfa', 
               fontWeight: '600',
               textShadow: '0 0 10px rgba(167, 139, 250, 0.5)'
@@ -320,7 +311,7 @@ export default function Skills() {
             fontSize: '1rem',
             marginBottom: '4rem'
           }}>
-            that values improving people's lives through accessible design and scalable technology
+            that values improving people&apos;s lives through accessible design and scalable technology
           </p>
 
           {/* Top Row Tech Stack Exactly Like Figma */}

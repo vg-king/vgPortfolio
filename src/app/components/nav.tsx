@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react';
 import GSAPAnimations from '../utils/gsapAnimations';
 
 export default function Nav() {
-  const navRef = useRef<HTMLElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const linksRef = useRef<HTMLUListElement>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

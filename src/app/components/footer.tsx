@@ -126,8 +126,8 @@ export default function Footer() {
             maxWidth: '700px',
             margin: '0 auto 3rem'
           }}>
-            I'm currently looking to join a cross-functional team that values improving 
-            people's lives through accessible design and scalable technology. 
+            I&apos;m currently looking to join a cross-functional team that values improving 
+            people&apos;s lives through accessible design and scalable technology. 
             <br />
             <span style={{ color: '#a78bfa', fontWeight: '600' }}>
               Feel free to reach out!
