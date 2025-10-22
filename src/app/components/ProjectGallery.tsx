@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import GSAPAnimations from '../utils/gsapAnimations';
 import './project-gallery.css';
 
 // Import project images
@@ -12,6 +13,8 @@ const ProjectGallery: React.FC = () => {
   const [currentProject, setCurrentProject] = useState(0);
   const [isRotating, setIsRotating] = useState(false);
   const cubeRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const cubeContainerRef = useRef<HTMLDivElement>(null);
 
   const nextProject = () => {
     if (isRotating) return;
@@ -64,11 +67,25 @@ const ProjectGallery: React.FC = () => {
     }
   ];
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Animate title
+      if (titleRef.current) {
+        GSAPAnimations.fadeIn(titleRef.current, { delay: 0.3 });
+      }
+      
+      // Animate cube with 3D effect
+      if (cubeContainerRef.current) {
+        GSAPAnimations.projectGallery3D(cubeContainerRef.current);
+      }
+    }
+  }, []);
+
   return (
     <section className="project-gallery-section">
       <div className="container mx-auto px-6 py-20">
         <div className="text-center mb-20">
-          <h2 className="text-5xl md:text-7xl font-bold text-white mb-6">
+          <h2 ref={titleRef} className="text-5xl md:text-7xl font-bold text-white mb-6">
             Featured Projects
           </h2>
           <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -77,7 +94,7 @@ const ProjectGallery: React.FC = () => {
         </div>
 
         {/* 3D Cube Carousel */}
-        <div className="cube-carousel-container">
+        <div ref={cubeContainerRef} className="cube-carousel-container">
           <div className="cube-scene">
             <div 
               ref={cubeRef}

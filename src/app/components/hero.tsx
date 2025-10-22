@@ -1,15 +1,39 @@
 "use client"
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import GSAPAnimations from '../utils/gsapAnimations';
 
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false);
   const [textIndex, setTextIndex] = useState(0);
+  const heroRef = useRef<HTMLElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const buttonsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setIsVisible(true);
     const interval = setInterval(() => {
       setTextIndex(prev => (prev + 1) % 3);
     }, 3000);
+
+    // GSAP Animations
+    if (typeof window !== 'undefined') {
+      // Hero title animation
+      if (titleRef.current) {
+        GSAPAnimations.heroTitle(titleRef.current, { delay: 0.5 });
+      }
+      
+      // Subtitle fade in
+      if (subtitleRef.current) {
+        GSAPAnimations.fadeIn(subtitleRef.current, { delay: 1 });
+      }
+      
+      // Buttons slide in
+      if (buttonsRef.current) {
+        GSAPAnimations.slideInLeft(buttonsRef.current, { delay: 1.5 });
+      }
+    }
+
     return () => clearInterval(interval);
   }, []);
 
@@ -238,16 +262,16 @@ export default function Hero() {
           </div>
 
           {/* Main Headline with Better Typography */}
-          <h1 style={{
-            fontSize: '4.5rem',
-            fontWeight: '800',
-            lineHeight: '1.02',
-            marginBottom: '2.2rem',
-            color: 'white',
-            textShadow: '0 6px 12px rgba(0,0,0,0.5)',
-            animation: 'fadeInUp 1.2s ease-out 0.6s both',
-            letterSpacing: '-0.02em'
-          }}>
+          <div ref={titleRef}>
+            <h1 style={{
+              fontSize: '4.5rem',
+              fontWeight: '800',
+              lineHeight: '1.02',
+              marginBottom: '2.2rem',
+              color: 'white',
+              textShadow: '0 6px 12px rgba(0,0,0,0.5)',
+              letterSpacing: '-0.02em'
+            }}>
             <span style={{
               background: 'linear-gradient(135deg, #ffffff, #e5e7eb)',
               backgroundClip: 'text',
@@ -307,8 +331,9 @@ export default function Hero() {
               ...
             </span>
           </h1>
+          </div>
 
-          <p style={{
+          <p ref={subtitleRef} style={{
             fontSize: '1.15rem',
             color: '#a1a1aa',
             marginBottom: '4rem',
@@ -387,11 +412,10 @@ export default function Hero() {
             </p>
 
             {/* CTA Buttons */}
-            <div style={{
+            <div ref={buttonsRef} style={{
               display: 'flex',
               gap: '1.8rem',
               marginTop: '3rem',
-              animation: 'fadeInUp 1.2s ease-out 1.2s both',
               flexWrap: 'wrap'
             }}>
               <button

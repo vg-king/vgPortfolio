@@ -1,5 +1,7 @@
 "use client"
 
+import { useEffect, useRef } from 'react';
+import GSAPAnimations from '../utils/gsapAnimations';
 import './animations.css';
 import reactLogo from '../../assets/png-transparent-react-react-native-logos-brands-in-colors-icon-thumbnail.png';
 import jsLogo from '../../assets/png-clipart-javascript-logo-computer-icons-vue-js-angle-text.png';
@@ -10,6 +12,10 @@ import springLogo from '../../assets/images (1).png';
 import kotlinLogo from '../../assets/images (2).png';
 
 export default function Skills() {
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const experiencesRef = useRef<HTMLDivElement>(null);
+  const skillsRef = useRef<HTMLDivElement>(null);
+
   const experiences = [
     {
       company: "USC KIIT",
@@ -63,6 +69,26 @@ export default function Skills() {
     { name: "Kotlin", icon: kotlinLogo, color: "#7f52ff", orbit: 480, speed: 16, angle: 300 }
   ];
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Animate work experience title
+      if (titleRef.current) {
+        GSAPAnimations.fadeIn(titleRef.current, { delay: 0.2 });
+      }
+      
+      // Animate experience cards
+      if (experiencesRef.current) {
+        const cards = experiencesRef.current.querySelectorAll('[data-experience-card]');
+        GSAPAnimations.staggerIn(Array.from(cards), { delay: 0.5 });
+      }
+      
+      // Animate skills section
+      if (skillsRef.current) {
+        GSAPAnimations.scaleIn(skillsRef.current, { delay: 1 });
+      }
+    }
+  }, []);
+
   return (
     <section id="about" style={{
       padding: '6rem 2rem 8rem 2rem',
@@ -74,7 +100,7 @@ export default function Skills() {
       }}>
         {/* Work Experience */}
         <div style={{ marginBottom: '8rem' }}>
-          <h2 style={{
+          <h2 ref={titleRef} style={{
             fontSize: '3rem',
             fontWeight: '700',
             color: 'white',
@@ -85,7 +111,7 @@ export default function Skills() {
             Work Experience
           </h2>
 
-          <div style={{
+          <div ref={experiencesRef} style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
             gap: '2.5rem'
@@ -93,6 +119,7 @@ export default function Skills() {
             {experiences.map((exp, index) => (
               <div
                 key={index}
+                data-experience-card
                 style={{
                   background: 'linear-gradient(135deg, rgba(30, 22, 54, 0.8), rgba(41, 37, 75, 0.6))',
                   border: '1px solid rgba(147, 51, 234, 0.2)',
@@ -393,7 +420,7 @@ export default function Skills() {
         </div>
 
         {/* Solar System Logo with Orbiting Tech Stack - Figma Style */}
-        <div style={{
+        <div ref={skillsRef} style={{
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',

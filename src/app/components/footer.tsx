@@ -1,8 +1,14 @@
 "use client"
 
+import { useEffect, useRef } from 'react';
+import GSAPAnimations from '../utils/gsapAnimations';
 import ContactForm from './ContactForm';
 
 export default function Footer() {
+  const contactTitleRef = useRef<HTMLHeadingElement>(null);
+  const contactFormRef = useRef<HTMLDivElement>(null);
+  const socialLinksRef = useRef<HTMLDivElement>(null);
+
   const contactInfo = [
     { 
       icon: "📧", 
@@ -51,6 +57,26 @@ export default function Footer() {
     }
   ];
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Animate contact title
+      if (contactTitleRef.current) {
+        GSAPAnimations.fadeIn(contactTitleRef.current, { delay: 0.2 });
+      }
+      
+      // Animate contact form
+      if (contactFormRef.current) {
+        GSAPAnimations.scaleIn(contactFormRef.current, { delay: 0.5 });
+      }
+      
+      // Animate social links
+      if (socialLinksRef.current) {
+        const links = socialLinksRef.current.querySelectorAll('a');
+        GSAPAnimations.staggerIn(Array.from(links), { delay: 0.8 });
+      }
+    }
+  }, []);
+
   return (
     <footer style={{
       padding: '6rem 2rem 4rem',
@@ -81,7 +107,7 @@ export default function Footer() {
           textAlign: 'center',
           marginBottom: '4rem'
         }}>
-          <h2 style={{
+          <h2 ref={contactTitleRef} style={{
             fontSize: '3rem',
             fontWeight: '700',
             color: 'white',
@@ -163,12 +189,12 @@ export default function Footer() {
           </div>
 
           {/* Contact Form */}
-          <div style={{ marginBottom: '4rem' }}>
+          <div ref={contactFormRef} style={{ marginBottom: '4rem' }}>
             <ContactForm />
           </div>
 
           {/* Social Links */}
-          <div style={{
+          <div ref={socialLinksRef} style={{
             display: 'flex',
             justifyContent: 'center',
             gap: '2rem',
