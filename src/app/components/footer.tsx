@@ -79,7 +79,7 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer className="footer-section" style={{
+    <footer id="contact" className="footer-section" style={{
       padding: '6rem 2rem 4rem',
       borderTop: '1px solid rgba(147, 51, 234, 0.3)',
       marginTop: '6rem',

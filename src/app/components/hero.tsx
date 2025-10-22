@@ -425,6 +425,15 @@ export default function Hero() {
               flexWrap: 'wrap'
             }}>
               <button
+                onClick={() => {
+                  const contactSection = document.getElementById('contact');
+                  if (contactSection) {
+                    contactSection.scrollIntoView({ 
+                      behavior: 'smooth',
+                      block: 'start'
+                    });
+                  }
+                }}
                 style={{
                   padding: '1.2rem 2.5rem',
                   background: 'linear-gradient(135deg, #9333ea, #7c3aed, #8b5cf6)',
@@ -453,7 +462,10 @@ export default function Hero() {
                 📧 Get In Touch
               </button>
               
-              <button
+              <a
+                href="https://drive.google.com/drive/u/0/my-drive"
+                target="_blank"
+                rel="noopener noreferrer"
                 style={{
                   padding: '1.2rem 2.5rem',
                   background: 'rgba(167, 139, 250, 0.08)',
@@ -468,7 +480,8 @@ export default function Hero() {
                   alignItems: 'center',
                   gap: '0.6rem',
                   backdropFilter: 'blur(10px)',
-                  letterSpacing: '0.01em'
+                  letterSpacing: '0.01em',
+                  textDecoration: 'none'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = 'rgba(167, 139, 250, 0.15)';
@@ -484,7 +497,7 @@ export default function Hero() {
                 }}
               >
                 📄 View Resume
-              </button>
+              </a>
             </div>
           </div>
         </div>
