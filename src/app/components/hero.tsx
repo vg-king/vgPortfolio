@@ -5,12 +5,36 @@ import GSAPAnimations from '../utils/gsapAnimations';
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false);
   const [textIndex, setTextIndex] = useState(0);
+  const [particles, setParticles] = useState<Array<{
+    id: number;
+    width: number;
+    height: number;
+    opacity: number;
+    left: number;
+    top: number;
+    duration: number;
+    delay: number;
+  }>>([]);
   const titleRef = useRef<HTMLDivElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setIsVisible(true);
+    
+    // Generate particles on client side only to avoid hydration mismatch
+    const generatedParticles = Array.from({ length: 20 }, (_, i) => ({
+      id: i,
+      width: Math.random() * 4 + 2,
+      height: Math.random() * 4 + 2,
+      opacity: Math.random() * 0.5 + 0.2,
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      duration: Math.random() * 3 + 2,
+      delay: Math.random() * 2
+    }));
+    setParticles(generatedParticles);
+    
     const interval = setInterval(() => {
       setTextIndex(prev => (prev + 1) % 3);
     }, 3000);
@@ -58,19 +82,19 @@ export default function Hero() {
         bottom: 0,
         zIndex: 0
       }}>
-        {[...Array(20)].map((_, i) => (
+        {particles.map((particle) => (
           <div
-            key={i}
+            key={particle.id}
             style={{
               position: 'absolute',
-              width: Math.random() * 4 + 2 + 'px',
-              height: Math.random() * 4 + 2 + 'px',
-              background: `rgba(147, 51, 234, ${Math.random() * 0.5 + 0.2})`,
+              width: particle.width + 'px',
+              height: particle.height + 'px',
+              background: `rgba(147, 51, 234, ${particle.opacity})`,
               borderRadius: '50%',
-              left: Math.random() * 100 + '%',
-              top: Math.random() * 100 + '%',
-              animation: `float ${Math.random() * 3 + 2}s ease-in-out infinite alternate`,
-              animationDelay: Math.random() * 2 + 's'
+              left: particle.left + '%',
+              top: particle.top + '%',
+              animation: `float ${particle.duration}s ease-in-out infinite alternate`,
+              animationDelay: particle.delay + 's'
             }}
           />
         ))}
@@ -592,31 +616,72 @@ export default function Hero() {
           .hero-section {
             padding: 1rem !important;
             padding-top: 5rem !important;
-            min-height: auto !important;
+            min-height: 100vh !important;
+            overflow-x: hidden !important;
           }
           
           .hero-container {
             flex-direction: column !important;
-            gap: 1.5rem !important;
+            gap: 2rem !important;
             text-align: center !important;
+            max-width: 100% !important;
+            width: 100% !important;
           }
           
           .hero-character {
             order: 2 !important;
             min-width: 250px !important;
-            margin: 1rem 0 !important;
+            margin: 1rem auto !important;
+            width: 280px !important;
+          }
+          
+          .hero-character > div:last-child {
+            width: 280px !important;
+            height: 280px !important;
           }
           
           .hero-content {
             order: 1 !important;
             min-width: auto !important;
             width: 100% !important;
+            max-width: 100% !important;
+            padding: 0 0.5rem !important;
           }
           
           .hero-title {
-            font-size: 2.5rem !important;
+            font-size: 2.2rem !important;
             line-height: 1.1 !important;
             margin-bottom: 1.5rem !important;
+            word-wrap: break-word !important;
+            hyphens: auto !important;
+          }
+          
+          .hero-content h2 {
+            font-size: 1.8rem !important;
+            line-height: 1.2 !important;
+            margin-bottom: 1rem !important;
+          }
+          
+          .hero-content p {
+            font-size: 1rem !important;
+            line-height: 1.6 !important;
+            margin-bottom: 2rem !important;
+          }
+          
+          .hero-content button,
+          .hero-content a {
+            font-size: 0.95rem !important;
+            padding: 1rem 1.5rem !important;
+            margin: 0.5rem !important;
+            width: 100% !important;
+            max-width: 250px !important;
+            justify-content: center !important;
+          }
+          
+          .hero-content > div:last-child {
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 1rem !important;
           }
         }
 
@@ -624,15 +689,81 @@ export default function Hero() {
           .hero-section {
             padding: 0.5rem !important;
             padding-top: 4rem !important;
+            overflow-x: hidden !important;
+          }
+          
+          .hero-container {
+            gap: 1.5rem !important;
+            padding: 0 !important;
           }
           
           .hero-title {
-            font-size: 2rem !important;
+            font-size: 1.8rem !important;
             margin-bottom: 1rem !important;
+            line-height: 1.2 !important;
           }
           
           .hero-character {
             min-width: 200px !important;
+            width: 220px !important;
+            margin: 0.5rem auto !important;
+          }
+          
+          .hero-character > div:last-child {
+            width: 220px !important;
+            height: 220px !important;
+          }
+          
+          .hero-content {
+            padding: 0 0.25rem !important;
+          }
+          
+          .hero-content h2 {
+            font-size: 1.5rem !important;
+            margin-bottom: 0.8rem !important;
+          }
+          
+          .hero-content p {
+            font-size: 0.9rem !important;
+            margin-bottom: 1.5rem !important;
+          }
+          
+          .hero-content button,
+          .hero-content a {
+            font-size: 0.9rem !important;
+            padding: 0.8rem 1.2rem !important;
+            width: 100% !important;
+            max-width: 200px !important;
+          }
+        }
+
+        @media (max-width: 320px) {
+          .hero-title {
+            font-size: 1.5rem !important;
+          }
+          
+          .hero-character {
+            width: 180px !important;
+          }
+          
+          .hero-character > div:last-child {
+            width: 180px !important;
+            height: 180px !important;
+          }
+          
+          .hero-content h2 {
+            font-size: 1.3rem !important;
+          }
+          
+          .hero-content p {
+            font-size: 0.85rem !important;
+          }
+          
+          .hero-content button,
+          .hero-content a {
+            font-size: 0.85rem !important;
+            padding: 0.7rem 1rem !important;
+            max-width: 180px !important;
           }
         }
       `}</style>

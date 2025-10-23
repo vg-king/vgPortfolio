@@ -40,7 +40,7 @@ export default function Skills() {
       period: "2023 - 2027",
       icon: "🎓",
       color: "#a78bfa",
-      description: "CGPA: 8.67/10 - Data Structures, Java, DBMS"
+      description: "- Data Structures, Java, DBMS"
     },
     {
       company: "Open Source",
@@ -83,7 +83,7 @@ export default function Skills() {
 
   return (
     <section id="about" className="skills-section" style={{
-      padding: '6rem 2rem 8rem 2rem',
+      padding: '4rem 1rem 6rem 1rem',
       position: 'relative'
     }}>
       <div style={{
@@ -91,7 +91,7 @@ export default function Skills() {
         margin: '0 auto'
       }}>
         {/* Work Experience */}
-        <div style={{ marginBottom: '8rem' }}>
+        <div className="work-experience-section" style={{ marginBottom: '6rem' }}>
           <h2 ref={titleRef} style={{
             fontSize: '3rem',
             fontWeight: '700',
@@ -105,7 +105,7 @@ export default function Skills() {
 
           <div ref={experiencesRef} className="experience-grid" style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
             gap: '2.5rem'
           }}>
             {experiences.map((exp, index) => (
@@ -288,9 +288,9 @@ export default function Skills() {
         </div>
 
         {/* Looking for Team Section */}
-        <div style={{
+        <div className="tech-stack-section" style={{
           textAlign: 'center',
-          marginBottom: '8rem',
+          marginBottom: '6rem',
           position: 'relative'
         }}>
           <p style={{
@@ -419,8 +419,9 @@ export default function Skills() {
           marginTop: '2rem',
           marginBottom: '2rem',
           position: 'relative',
-          height: '600px',
-          width: '100%'
+          height: '400px',
+          width: '100%',
+          minHeight: '300px'
         }}>
           {/* Static Orbital Rings - Like Figma */}
           {[180, 240, 300, 360, 420, 480].map((radius, index) => (
@@ -533,7 +534,8 @@ export default function Skills() {
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'scale(1.3)';
                   e.currentTarget.style.boxShadow = `
-                    0 12px 48px ${tech.color}60,
+                  
+                  0 12px 48px ${tech.color}60,
                     0 0 80px ${tech.color}40,
                     inset 0 1px 0 rgba(255, 255, 255, 0.2)
                   `;
@@ -1063,29 +1065,164 @@ export default function Skills() {
       </div>
 
       <style jsx>{`
+        /* Keyframes for solar system animations */
+        @keyframes orbitFixed {
+          from {
+            transform: rotate(0deg) translate(var(--orbit-radius, 100px)) rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg) translate(var(--orbit-radius, 100px)) rotate(-360deg);
+          }
+        }
+
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 0.8;
+            transform: translate(-50%, -50%) scale(1);
+          }
+          50% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
+          }
+        }
+
+        @keyframes slideInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        /* Base styles for orbital elements */
+        .solar-system-container [style*="animation"] {
+          animation-play-state: running !important;
+        }
+
         @media (max-width: 768px) {
           .skills-section {
-            padding: 4rem 1rem 6rem 1rem !important;
+            padding: 4rem 1rem !important;
           }
           
           .experience-grid {
             grid-template-columns: 1fr !important;
-            gap: 1.5rem !important;
+            gap: 2rem !important;
           }
           
           .solar-system-container {
             height: 400px !important;
+            width: 100% !important;
+            margin: 3rem auto !important;
+            padding: 2rem !important;
+            transform: scale(0.85) !important;
+          }
+          
+          /* Keep tech icons normal size with proper animations */
+          .solar-system-container div[style*="animation: orbitFixed"] {
+            animation-play-state: running !important;
+          }
+          
+          /* Keep central logo normal size */
+          .solar-system-container div[style*="fontSize: '4rem'"] {
+            font-size: 3.5rem !important;
+            width: 90px !important;
+            height: 90px !important;
+          }
+          
+          /* Keep text sizes closer to desktop */
+          .skills-section h2 {
+            font-size: 2.5rem !important;
+            margin-bottom: 2rem !important;
+          }
+          
+          .skills-section h3 {
+            font-size: 1.8rem !important;
+            margin-bottom: 1.5rem !important;
+          }
+          
+          /* Experience cards keep desktop-like appearance */
+          [data-experience-card] {
+            padding: 2rem !important;
             margin: 1rem 0 !important;
+          }
+          
+          /* Preserve desktop-like margins */
+          .skills-section [style*="marginBottom: '8rem'"] {
+            margin-bottom: 4rem !important;
+          }
+          
+          .skills-section [style*="marginBottom: '4rem'"] {
+            margin-bottom: 3rem !important;
           }
         }
 
         @media (max-width: 480px) {
           .skills-section {
-            padding: 3rem 0.5rem 4rem 0.5rem !important;
+            padding: 3rem 0.5rem !important;
+          }
+          
+          .experience-grid {
+            gap: 1.5rem !important;
           }
           
           .solar-system-container {
-            height: 300px !important;
+            height: 350px !important;
+            margin: 2rem auto !important;
+            padding: 1rem !important;
+            transform: scale(0.75) !important;
+          }
+          
+          /* Keep animations working on small mobile */
+          .solar-system-container div[style*="animation: orbitFixed"] {
+            animation-play-state: running !important;
+          }
+          
+          /* Keep central logo readable */
+          .solar-system-container div[style*="fontSize: '4rem'"] {
+            font-size: 3rem !important;
+            width: 80px !important;
+            height: 80px !important;
+          }
+          
+          .skills-section h2 {
+            font-size: 2rem !important;
+            margin-bottom: 1.5rem !important;
+          }
+          
+          .skills-section h3 {
+            font-size: 1.5rem !important;
+            margin-bottom: 1rem !important;
+          }
+          
+          /* Further reduce margins on very small screens */
+          .skills-section > div > div {
+            margin-bottom: 1.5rem !important;
+          }
+          
+          /* Experience cards very small mobile */
+          [data-experience-card] {
+            padding: 1.2rem !important;
+            border-radius: 12px !important;
+          }
+          
+          /* Maintain animations on very small screens */
+          
+          /* Prevent horizontal overflow */
+          .skills-section * {
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+          }
+          
+          /* Fix large margins on small mobile */
+          .skills-section [style*="marginBottom: '8rem'"] {
+            margin-bottom: 2rem !important;
+          }
+          
+          .skills-section [style*="marginBottom: '4rem'"] {
+            margin-bottom: 1.5rem !important;
           }
         }
       `}</style>

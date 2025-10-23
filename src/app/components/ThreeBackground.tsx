@@ -23,7 +23,8 @@ const ThreeBackground: React.FC<ThreeBackgroundProps> = ({
   };
 
   useEffect(() => {
-    if (!mountRef.current) return;
+    const currentMount = mountRef.current;
+    if (!currentMount) return;
 
     // Mobile detection for performance optimization
     const mobile = isMobile();
@@ -53,11 +54,11 @@ const ThreeBackground: React.FC<ThreeBackgroundProps> = ({
     // Set pixel ratio for mobile performance
     renderer.setPixelRatio(mobile ? Math.min(window.devicePixelRatio, 2) : window.devicePixelRatio);
     rendererRef.current = renderer;
-    mountRef.current.appendChild(renderer.domElement);
+    currentMount.appendChild(renderer.domElement);
 
-    // Adjust performance for mobile
-    const adjustedParticleCount = mobile ? Math.min(particleCount * 0.3, 300) : particleCount;
-    const adjustedIntensity = mobile ? intensity * 0.5 : intensity;
+    // Adjust performance for mobile - more aggressive reduction
+    const adjustedParticleCount = mobile ? Math.min(particleCount * 0.2, 200) : Math.min(particleCount, 800);
+    const adjustedIntensity = mobile ? intensity * 0.3 : intensity;
 
     // Create particles
     const geometry = new THREE.BufferGeometry();
@@ -127,10 +128,19 @@ const ThreeBackground: React.FC<ThreeBackgroundProps> = ({
       scene.add(mesh);
     }
 
-    // Animation loop
+    // Performance monitoring
+    let lastTime = 0;
+    const targetFPS = mobile ? 30 : 60;
+    const frameInterval = 1000 / targetFPS;
+
+    // Animation loop with FPS control
     let animationId: number;
-    const animate = () => {
+    const animate = (currentTime: number) => {
       animationId = requestAnimationFrame(animate);
+
+      // FPS control
+      if (currentTime - lastTime < frameInterval) return;
+      lastTime = currentTime;
 
       // Rotate particles (use adjusted intensity)
       if (particlesRef.current) {
@@ -165,7 +175,7 @@ const ThreeBackground: React.FC<ThreeBackgroundProps> = ({
       renderer.render(scene, camera);
     };
 
-    animate();
+    animate(0);
 
     // Handle resize
     const handleResize = () => {
@@ -180,7 +190,6 @@ const ThreeBackground: React.FC<ThreeBackgroundProps> = ({
 
     // Cleanup
     return () => {
-      const currentMount = mountRef.current;
       window.removeEventListener('resize', handleResize);
       if (animationId) {
         cancelAnimationFrame(animationId);
@@ -188,6 +197,20 @@ const ThreeBackground: React.FC<ThreeBackgroundProps> = ({
       if (currentMount && renderer.domElement) {
         currentMount.removeChild(renderer.domElement);
       }
+      
+      // Dispose of Three.js resources
+      geometry.dispose();
+      material.dispose();
+      shapes.forEach(shape => {
+        if (shape.geometry) shape.geometry.dispose();
+        if (shape.material) {
+          if (Array.isArray(shape.material)) {
+            shape.material.forEach(mat => mat.dispose());
+          } else {
+            shape.material.dispose();
+          }
+        }
+      });
       renderer.dispose();
     };
   }, [intensity, particleCount]);

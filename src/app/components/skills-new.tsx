@@ -24,7 +24,7 @@ export default function Skills() {
       period: "2023 - 2027",
       icon: "🎓",
       color: "#a78bfa",
-      description: "CGPA: 8.67/10 - Data Structures, Java, DBMS"
+      description: "- Data Structures, Java, DBMS"
     },
     {
       company: "Open Source",

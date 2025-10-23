@@ -128,8 +128,10 @@ export default function Nav() {
         <button 
           className="mobile-menu-btn"
           onClick={toggleMobileMenu}
+          aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-expanded={isMobileMenuOpen}
+          aria-controls="mobile-navigation"
           style={{
-            display: 'none',
             background: 'transparent',
             border: 'none',
             color: 'white',
@@ -143,20 +145,26 @@ export default function Nav() {
 
         {/* Mobile Navigation Menu */}
         <div 
+          id="mobile-navigation"
           className="mobile-nav"
+          role="navigation"
+          aria-hidden={!isMobileMenuOpen}
           style={{
-            display: 'none',
+            display: 'block',
             position: 'absolute',
             top: '100%',
             left: 0,
             right: 0,
-            background: 'rgba(26, 11, 46, 0.95)',
+            background: 'rgba(26, 11, 46, 0.98)',
             backdropFilter: 'blur(20px)',
             borderTop: '1px solid rgba(147, 51, 234, 0.3)',
             transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(-100%)',
             opacity: isMobileMenuOpen ? 1 : 0,
-            transition: 'all 0.3s ease',
-            zIndex: 999
+            visibility: isMobileMenuOpen ? 'visible' : 'hidden',
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            zIndex: 999,
+            maxHeight: isMobileMenuOpen ? '300px' : '0',
+            overflow: 'hidden'
           }}
         >
           <ul style={{
@@ -224,6 +232,16 @@ export default function Nav() {
       </div>
 
       <style jsx>{`
+        /* Default styles - desktop */
+        .mobile-menu-btn {
+          display: none;
+        }
+        
+        .mobile-nav {
+          display: none;
+        }
+        
+        /* Mobile styles */
         @media (max-width: 768px) {
           .desktop-nav {
             display: none !important;
@@ -232,9 +250,16 @@ export default function Nav() {
           .mobile-menu-btn {
             display: block !important;
           }
+        }
+        
+        /* Ensure mobile nav is hidden on desktop */
+        @media (min-width: 769px) {
+          .mobile-menu-btn {
+            display: none !important;
+          }
           
           .mobile-nav {
-            display: block !important;
+            display: none !important;
           }
         }
       `}</style>
